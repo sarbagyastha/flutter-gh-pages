@@ -1,4 +1,4 @@
-name: 'Deploy Flutter web app to github pages'
+name: 'Deploy Flutter web app to github pages (removing large assets/NOTICES file)'
 description: 'Automates the build and deployment of your Flutter web app on Github gh pages'
 author: 'bluefireteam'
 
