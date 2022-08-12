@@ -1,6 +1,6 @@
-name: 'Deploy Flutter web app to github pages (removing large assets/NOTICES file)'
+name: 'Deploy Flutter web app to github pages'
 description: 'Automates the build and deployment of your Flutter web app on Github gh pages'
-author: 'bluefireteam'
+author: 'sarbagyastha'
 
 branding:
   color: blue
@@ -30,15 +30,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: flutter config --enable-web
-      shell: bash
-      working-directory: ${{inputs.workingDir}}
     - run: flutter build web --release --web-renderer=${{inputs.webRenderer}} --base-href ${{inputs.baseHref}} ${{inputs.customArgs}}
       shell: bash
-      working-directory: ${{inputs.workingDir}}
-    - run: rm build/web/assets/NOTICES && grep -v "assets/NOTICES" build/web/flutter_service_worker.js > tmpfile && mv tmpfile build/web/flutter_service_worker.js
-      shell: bash
-      working-directory: ${{inputs.workingDir}}
+      working-directory: ${{inputs.workingDir}
     - run: git config user.name github-actions
       shell: bash
       working-directory: ${{inputs.workingDir}}
