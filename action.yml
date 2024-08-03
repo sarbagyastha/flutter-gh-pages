@@ -10,7 +10,7 @@ inputs:
   webRenderer:
     description: 'Which web renderer to be used, default is auto'
     required: false
-    default: auto
+    default: ""
   workingDir:
     description: 'The directory where the project is (default .)'
     required: false
@@ -30,7 +30,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: flutter build web --release --web-renderer=${{inputs.webRenderer}} --base-href ${{inputs.baseHref}} ${{inputs.customArgs}}
+    - run: |
+        if [ -n "${{inputs.webRenderer}}" ]; then
+          flutter build web --release --web-renderer=${{inputs.webRenderer}} --base-href ${{inputs.baseHref}} ${{inputs.customArgs}}
+        else
+          flutter build web --release --base-href ${{inputs.baseHref}} ${{inputs.customArgs}}
+        fi
       shell: bash
       working-directory: ${{inputs.workingDir}}
     - run: git config user.name github-actions
