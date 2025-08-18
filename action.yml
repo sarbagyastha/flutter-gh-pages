@@ -26,6 +26,10 @@ inputs:
     description: 'Custom args like: --dart-define="simple=example"'
     required: false
     default:
+  cname:
+    description: 'Custom domain'
+    required: false
+    default: ""
 
 runs:
   using: 'composite'
@@ -38,6 +42,15 @@ runs:
         fi
       shell: bash
       working-directory: ${{inputs.workingDir}}
+      
+    - name: Add CNAME file if provided
+      run: |
+        if [ -n "${{inputs.cname}}" ]; then
+          echo "${{inputs.cname}}" > build/web/CNAME
+        fi
+      shell: bash
+      working-directory: ${{inputs.workingDir}}
+
     - run: git config user.name github-actions
       shell: bash
       working-directory: ${{inputs.workingDir}}
